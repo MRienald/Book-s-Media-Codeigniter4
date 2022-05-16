@@ -8,7 +8,23 @@
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item active">Book <?= $title?></li>
         </ol>
-        
+        <!-- Alert -->
+        <?php if(session()->getFlashdata('success')): ?>
+            <div class="alert alert-success" role="alert">
+                <?= session()->getFlashData('success') ?>
+            </div>
+        <?php endif; ?>
+        <?php if(session()->getFlashdata('warning')): ?>
+            <div class="alert alert-warning" role="alert">
+                <?= session()->getFlashData('warning') ?>
+            </div>
+        <?php endif; ?>
+        <?php if(session()->getFlashdata('error')): ?>
+            <div class="alert alert-danger" role="alert">
+                <?= session()->getFlashData('error') ?>
+            </div>
+        <?php endif; ?>
+        <!--  -->
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>

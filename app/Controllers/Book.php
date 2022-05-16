@@ -41,15 +41,56 @@ class Book extends BaseController
     public function create(){
         $data = [
             'title'=> TITLE, 
-            'book_catagory'=> $this->_book_category_model->orderby('name_catagory')->findAll()
+            'book_catagory'=> $this->_book_category_model->orderby('name_catagory')->findAll(),
+            'validation' => \Config\Services::validation()
         ];
         return view('book/create', $data);
     }
 
     public function save(){
-        // dd($this->request->getVar());
+        if(!$this->validate([
+            'title'             => [
+                'rules'     => 'required|is_unique[buku.title]',
+                'label'     => 'Title',
+                'errors'    => [
+                    'required' => '{field} is required!',
+                    'is_unique' => 'Cant enter the same {field}!'
+                ]
+            ],
+            'release_year'      => [
+                'rules'     => 'required|numeric',
+                'label'     => 'Data',
+                'errors'    => [
+                    'required' => '{field} is required!',
+                    'numeric'  => '{field} entered must contain only numbers.'
+                ]
+            ],
+            'author'            => 'required',
+            'publisher'         => 'required',
+            'price'             => [
+                'rules'     => 'required|numeric',
+                'label'     => 'Data',
+                'errors'    => [
+                    'required' => '{field} is required!',
+                    'numeric'  => '{field} entered must contain only numbers.'
+                ]
+            ],
+            'discount'            => 'numeric',
+            'stock'             => [
+                'rules'     => 'required|numeric',
+                'label'     => 'Data',
+                'errors'    => [
+                    'required' => '{field} is required!',
+                    'numeric'  => '{field} entered must contain only numbers.'
+                ]
+            ],
+            'book_catagory_id'  => 'required',
+        ])){
+            return redirect()->to('/book-create')->withInput();
+        }
+
         $slug = url_title($this->request->getVar('title'), '-', true);
-        $this->_book_model->save([
+        if($this->_book_model->save([
             'title'             => $this->request->getVar('title'),
             'slug'              => $slug,
             'release_year'      => $this->request->getVar('release_year'),
@@ -59,7 +100,12 @@ class Book extends BaseController
             'discount'          => $this->request->getVar('discount'),
             'stock'             => $this->request->getVar('stock'),
             'book_catagory_id'  => $this->request->getVar('book_catagory_id')
-        ]);
+        ])){
+            session()->setFlashdata('success', 'Data saved successfully!');
+        }else{
+            session()->setFlashdata('error', 'Data failed to be save!');
+        }
+        
         return redirect()->to('/book');
     }
 }

@@ -26,9 +26,9 @@
                         <p class="card-text">
                             Writer &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : <?= $data_book['author']?><br>
                             Publisher &nbsp : <?= $data_book['publisher']?><br>
-                            Catagory &nbsp : <?= $data_book['name_catagory']?><br>
-                            Stock &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp: <b><?= $data_book['stock']?> pcs</b><br>
-                            Release Year &nbsp&nbsp: <?= $data_book['release_year']?>
+                            Catagory &nbsp : <?= $data_book['name_catagory']?><br><br><b>
+                            Release Year &nbsp&nbsp:&nbsp&nbsp <?= $data_book['release_year']?><br>
+                            Stock &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp &nbsp&nbsp :&nbsp&nbsp <?= $data_book['stock']?> pcs<br></b>
                         </p>
                         <div class="card-text" style="text-align:right">
                             <p>Rp <?= $data_book['price']?>,- &nbsp&nbsp&nbsp&nbsp<br>
