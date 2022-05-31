@@ -10,6 +10,14 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="<?= base_url()?>/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/font-awesome/5.15.3/js//all.min.js" crossorigin="anonymous"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <?php if(!empty($result->css_files)): ?>
+            <?php foreach($result->css_files as $file): ?>
+                <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
+            <?php endforeach; ?>
+        <?php endif; ?>
     </head>
     <body class="sb-nav-fixed">
     <?= $this->include('template/topbar')?>
@@ -21,7 +29,7 @@
             <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                            <div class="text-muted">Copyright &copy; Book's Media 2022</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
@@ -39,5 +47,21 @@
         <script src="<?= base_url()?>/assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="<?= base_url()?>/js/datatables-simple-demo.js"></script>
+        <script>
+            function previewImage(){
+                const cover = document.querySelector('#cover')
+                const img_preview = document.querySelector('.img-preview')
+                const file_cover = new FileReader()
+                file_cover.readAsDataURL(cover.files[0])
+                file_cover.onload = function(e){
+                    img_preview.src = e.target.result
+                }
+            }
+        </script>
+        <?php if(!empty($result->js_files)): ?>
+            <?php foreach($result->js_files as $file): ?>
+                <script src="<?php echo $file; ?>"></script>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </body>
 </html>

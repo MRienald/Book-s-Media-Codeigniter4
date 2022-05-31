@@ -31,12 +31,56 @@ $routes->setAutoRoute(false);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
 $routes->get('/', 'Home::index');
+$routes->post('chart-transaksi', 'Home::showChartTransaksi');
+$routes->post('chart-customer', 'Home::showChartCustomer');
 $routes->get('/admin', 'admin\Admin::index');
-$routes->get('/book', 'Book::index');
+
+// routes Book
+$routes->get('/book', 'Book::index', ['filter' => 'permission:data-buku']);
 $routes->get('/book-detail/(:any)', 'Book::detail/$1');
 $routes->get('/book-create', 'Book::create', ['as'=> 'insert-buku']);
+$routes->get('/book-edit/(:any)', 'Book::edit/$1', ['as'=>'edit-buku']);
 $routes->post('/book-create', 'Book::save', ['as'=>'save-buku']);
+$routes->post('/book-edit/(:num)', 'Book::update/$1', ['as'=>'update-buku']);
+$routes->delete('/book-delete/(:num)', 'Book::delete/$1', ['as'=>'delete-buku']);
+
+// routes Supplier 
+$routes->get('/supplier', 'Supplier::index', ['filter' => 'permission:data-supplier']);
+$routes->get('create-supplier', 'Supplier::create');
+$routes->get('edit-supplier/(:num)', 'Supplier::edit/$1');
+$routes->post('create-supplier', 'Supplier::save');
+$routes->post('edit-supplier/(:num)', 'Supplier::update/$1');
+$routes->delete('delete-supplier/(:num)', 'Supplier::delete/$1');
+
+//routes Customer
+$routes->get('/customer/index', 'Customer::index', ['filter' => 'permission:data-customer'])->setAutoRoute(true);
+$routes->addRedirect('/customer', 'customer/index');
+
+//routes users
+$routes->get('/users', 'Users::index', ['filter' => 'permission:data-users']);
+$routes->get('create-users', 'Users::create', ['filter' => 'permission:tambah-users']);
+$routes->post('create-users', 'Users::save', ['filter' => 'permission:tambah-users']);
+$routes->delete('/delete-users/(:num)', 'Users::delete/$1', ['filter' => 'permission:hapus-users']);
+
+//routes Profile
+$routes->get('/profile', 'Profile::index');
+$routes->get('/password', 'Profile::ubahPassword');
+$routes->post('/profile/(:num)', 'Profile::updateProfile/$1');
+$routes->post('/password/(:num)', 'Profile::updatePassword/$1');
+
+//routes penjualan
+$routes->get('/jual', 'Penjualan::index');
+$routes->get('load-cart-jual', 'Penjualan::show_cart');
+$routes->post('add-cart-jual', 'Penjualan::add_cart');
+$routes->post('edit-cart-jual/(:any)', 'Penjualan::update_cart/$1');
+$routes->delete('delete-cart-jual/(:any)', 'Penjualan::delete_cart/$1');
+$routes->get('load-total-jual', 'Penjualan::getTotal');
+$routes->post('pembayaran', 'Penjualan::pembayaran');
+$routes->get('laporan', 'Penjualan::laporan');
+$routes->get('laporan/detail/(:any)', 'Penjualan::detail/$1');
+$routes->post('laporan/filter', 'Penjualan::filter');
 
 /*
  * --------------------------------------------------------------------

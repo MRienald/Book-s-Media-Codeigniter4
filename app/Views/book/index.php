@@ -27,7 +27,7 @@
         <!--  -->
         <div class="card mb-4">
             <div class="card-header">
-                <i class="fas fa-table me-1"></i>
+                <i class="fas fa-table me-2"></i>
                 List <?= $title?>
             </div>
             <div class="card-body">
@@ -37,12 +37,10 @@
                         <tr><center></center>
                             <th><center>NO</center></th>
                             <th><center>Title</center></th>
-                            <th><center>Writer</center></th>
                             <th><center>Catagory</center></th>
                             <th><center>Release Year</center></th>
                             <th><center>Price</center></th>
                             <th><center>Stock</center></th>
-                            <th><center>Disc</center></th>
                             <th><center>Action</center></th>
                         </tr>
                     </thead>
@@ -51,17 +49,34 @@
                         <?php foreach($data_book as $value): ?>
                             <tr>
                                 <td><center><?= $no++ ?></center></td>
-                                <td><?=$value['title']?></td>
-                                <td><?=$value['author']?></td>
+                                <td><?=substr($value['title'], 0, 40)?>...</td>
                                 <td><?=$value['name_catagory']?></td>
                                 <td><center><?=$value['release_year']?></center></td>
-                                <td><center><?=$value['price']?></center></td>
+                                <td><center><?= number_to_currency($value['price'], 'IDR', 'id_ID', 2) ?></center></td>
                                 <td><center><?=$value['stock']?></center></td>
-                                <td><center><?=$value['discount']?></center></td>
                                 <td>
+                                <center>
                                     <a href="book-detail/<?= $value['slug']?>" class = "btn btn-outline-success">
                                     <i class= "fas fa-info-circle"></i> Detail
                                     </a>
+                                    <a href="<?= route_to('edit-buku', $value['slug'])?>" class="btn btn-outline-warning">
+                                    <i class="fas fa-edit"></i> Update
+                                    </a>
+                                    <form action="book-delete/<?= $value['book_id']?>" method="post" class="d-inline">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="btn btn-outline-danger"
+                                        onclick="
+                                        swal({
+                                            title : 'Are you sure to delete this data?',
+                                            icon  : 'warning'
+
+                                        })">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </center>
+                                    
                                 </td>
                             </tr>
                         <?php endforeach; ?>
